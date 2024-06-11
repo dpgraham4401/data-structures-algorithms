@@ -3,6 +3,8 @@
 # the algorithm will always take the same amount of time to complete.
 import time
 
+import matplotlib.pyplot as plt
+
 
 def constant_time(items):
     # no matter how large the input, the same number of steps are taken
@@ -12,15 +14,17 @@ def constant_time(items):
 
 
 if __name__ == "__main__":
-    small_input = [1, 2, 3, 4, 5]
-    large_input = [i for i in range(1000000)]
 
-    start = time.time()
-    constant_time(small_input)
-    end = time.time()
-    print("Small input time: ", end - start)
+    input_sizes = [1, 10, 100, 1000, 10000, 1000000]
+    times = []
 
-    start = time.time()
-    constant_time(large_input)
-    end = time.time()
-    print("large input time: ", end - start)
+    for input_size in input_sizes:
+        inputs = [i for i in range(input_size)]
+        start_time = time.time()
+        constant_time(inputs)
+        times.append(time.time() - start_time)
+
+    fig, ax = plt.subplots()
+    table_data = list(zip(input_sizes, times))
+    table = ax.table(cellText=table_data, colLabels=["Input Size", "Time"], loc='center')
+    plt.show()
